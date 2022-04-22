@@ -1,13 +1,21 @@
 package main
 
-func main() {
-	cards := create()
+import "log"
 
-	hand, _ := deal(cards, 3)
+func main() {
+	cards := createNewDeck()
+	cards.shuffle()
+
+	hand, _ := cards.deal(5)
 	hand.print()
 
-	cards.saveToFile("my_cards")
+	err := cards.saveToFile("my_cards")
+	if err != nil {
+		log.Fatalf("%s", err)
+	}
 
-	deck, _ := newDeckFromFile("my_cards")
-	deck.print()
+	_, err = newDeckFromFile("my_cards")
+	if err != nil {
+		log.Fatalf("%s", err)
+	}
 }
