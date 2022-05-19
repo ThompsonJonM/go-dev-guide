@@ -1,6 +1,9 @@
 package main
 
-import "testing"
+import (
+	"os"
+	"testing"
+)
 
 func TestCreateNewDeck(t *testing.T) {
 	deck := createNewDeck()
@@ -11,5 +14,42 @@ func TestCreateNewDeck(t *testing.T) {
 
 	if deck[0] != "Ace of Spades" {
 		t.Errorf("Expected %s, got %s", "Ace of Spades", deck[0])
+	}
+}
+
+func TestSaveToDeck(t *testing.T) {
+	deck := createNewDeck()
+
+	if err := deck.saveToFile("_decktesting"); err != nil {
+		t.Errorf(err.Error())
+	}
+
+	if _, err := os.ReadFile("_decktesting"); err != nil {
+		t.Errorf(err.Error())
+	}
+
+	if err := os.Remove("_decktesting"); err != nil {
+		t.Errorf(err.Error())
+	}
+}
+
+func TestNewDeckFromFile(t *testing.T) {
+	deck := createNewDeck()
+
+	if err := deck.saveToFile("_decktesting"); err != nil {
+		t.Errorf(err.Error())
+	}
+
+	loadedDeck, err := newDeckFromFile("_decktesting")
+	if err != nil {
+		t.Errorf(err.Error())
+	}
+
+	if len(loadedDeck) != 52 {
+		t.Errorf("Expected %d, got %d", 52, len(loadedDeck))
+	}
+
+	if err := os.Remove("_decktesting"); err != nil {
+		t.Errorf(err.Error())
 	}
 }

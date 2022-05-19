@@ -22,7 +22,7 @@ func (d deck) print() {
 }
 
 func (d deck) saveToFile(filename string) error {
-	if err := ioutil.WriteFile(filename, []byte(d.toString()), 0666); err != nil {
+	if err := ioutil.WriteFile(filename, []byte(d.toString()), 0600); err != nil {
 		return err
 	}
 
