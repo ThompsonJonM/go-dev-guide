@@ -17,6 +17,17 @@ func TestCreateNewDeck(t *testing.T) {
 	}
 }
 
+func TestShuffleDeck(t *testing.T) {
+	deck := createNewDeck()
+	card := deck[0]
+
+	deck.shuffle()
+
+	if deck[0] == card {
+		t.Errorf("Deck did not shuffle")
+	}
+}
+
 func TestSaveToDeck(t *testing.T) {
 	deck := createNewDeck()
 
